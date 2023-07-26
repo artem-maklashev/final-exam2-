@@ -13,4 +13,12 @@ public interface View {
     void addAnimal();
 
     void start() throws IOException;
+
+    void showCommands();
+
+    void trainAnimal();
+
+    void showAnimals();
+
+    void exit();
 }
