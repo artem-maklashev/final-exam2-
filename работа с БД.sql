@@ -151,23 +151,72 @@ VALUES
 ## Удаляем из базы данных верблюдов
 DROP TABLE camels;
 
+## Объеденяем таблицы с осликами и лошадьми
+DROP TABLE IF EXISTS packanimals;
+CREATE TABLE packanimals(
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,  
+  packanimals_type_id INT UNSIGNED NOT NULL,
+  name VARCHAR(50) NOT NULL,
+  birthday DATE,
+  command VARCHAR(120) ,  
+  FOREIGN KEY (packanimals_type_id) REFERENCES packanimals_type(id)
+);
+
+INSERT INTO packanimals (packanimals_type_id, name, birthday, command)
+SELECT packanimals_type_id, name, birthday, command FROM horses 
+UNION ALL 
+SELECT packanimals_type_id, name, birthday, command FROM donkeys;
+
+
+
 ## Создаем таблицу молодые животные
 DROP TABLE IF EXISTS young_animals;
 CREATE TABLE young_animals (
   id INT AUTO_INCREMENT NOT NULL,
   name VARCHAR(50) NOT NULL,
+  kind VARCHAR(50) NOT NULL,
   age INT NOT NULL,
   PRIMARY KEY (id)
 );
 
-INSERT INTO young_animals (name, age)
-SELECT name, TIMESTAMPDIFF(MONTH, birthday, NOW()) AS Возраст_мес
+INSERT INTO young_animals (name, age, kind)
+SELECT name, TIMESTAMPDIFF(MONTH, birthday, NOW()) AS Возраст_мес, kind
 FROM (
-	SELECT name, birthday FROM cats 
+	SELECT name, birthday, p.pets_type AS kind  FROM cats
+	JOIN pets_type p ON cats.pets_type_id = p.id 
 	UNION ALL
-	SELECT name, birthday FROM dogs 
+	SELECT name, birthday, p.pets_type AS kind  FROM dogs 
+	JOIN pets_type p ON dogs.pets_type_id = p.id
+	UNION ALL
+	SELECT name, birthday, p.pets_type AS kind FROM humsters
+	JOIN pets_type p ON humsters.pets_type_id = p.id
+	UNION ALL
+	SELECT name, birthday, p1.packanimals_type AS kind  FROM packanimals 
+	JOIN packanimals_type p1 ON packanimals.packanimals_type_id = p1.id	
 ) AS animals
 WHERE birthday > DATE_SUB(NOW(), INTERVAL 3 YEAR) AND birthday < DATE_SUB(NOW(), INTERVAL 1 YEAR);
 
-	
-WHERE age > 1 AND age < 3;
+## Объединяем все таблицы с сохранением признаков 
+ALTER TABLE packanimals ADD animal_type_id INT UNSIGNED NOT NULL DEFAULT 2; 
+ALTER TABLE dogs ADD animal_type_id INT UNSIGNED NOT NULL DEFAULT 1;
+ALTER TABLE cats ADD animal_type_id INT UNSIGNED NOT NULL DEFAULT 1;
+ALTER TABLE humsters ADD animal_type_id INT UNSIGNED NOT NULL DEFAULT 1;
+
+DROP TABLE IF EXISTS animals;
+CREATE TABLE animals(
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  animal_type_id INT UNSIGNED NOT NULL,
+  type_id INT UNSIGNED,  
+  name VARCHAR(50) NOT NULL,
+  birthday DATE,
+  command VARCHAR(120),  
+  FOREIGN KEY (animal_type_id) REFERENCES animals_type(id)  
+);
+INSERT INTO animals (name, animal_type_id, type_id, birthday, command)
+SELECT name, animal_type_id, packanimals_type_id AS type_id, birthday, command   FROM packanimals p
+UNION
+SELECT name, animal_type_id, pets_type_id, birthday, command  FROM cats c
+UNION
+SELECT name, animal_type_id, pets_type_id, birthday, command  FROM dogs d
+UNION
+SELECT name, animal_type_id, pets_type_id, birthday, command  FROM humsters h;
