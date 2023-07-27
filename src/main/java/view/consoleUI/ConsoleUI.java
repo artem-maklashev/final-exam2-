@@ -7,8 +7,14 @@ import view.View;
 import view.consoleUI.menu.*;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+
+import model.animals.Animal;
 
 public class ConsoleUI implements View {
     private Presenter presenter;
@@ -69,7 +75,21 @@ public class ConsoleUI implements View {
 
     @Override
     public void showAnimals() throws SQLException, IOException {
-        presenter.showAnimals();
+        List<Animal> animals = presenter.showAnimals();
+        Map<Integer, String> animalsMap = presenter.getMap("animals_type", "animal_type");
+        Map<Integer, String> kindAnimals = presenter.getMap("animals_kind", "type");
+        String[] headers = {"№", "Тип животного", "Вид животного", "Имя", "Дата рождения", "Команды"};
+        System.out.format("%5s%15s%15s%15s%12s%50s\n","№", "Тип животного", "Вид животного", "Имя", "Дата рождения", "Команды");
+        System.out.println();
+        for (Animal animal : animals) {
+            System.out.format("%5s %15s %15s %15s %12s %50s\n",
+                    animal.getId() + " " +                
+                    animalsMap.get(animal.getAnimalTypeId()) + " " +
+                    kindAnimals.get(animal.getKindId()) + " " +
+                    animal.getName() + " " +
+                    (animal.getBirthDate()).toString() + " " +
+                    animal.getComand());
+        } 
     }
 
     @Override

@@ -2,14 +2,15 @@ package presenter;
 
 import model.DBconnection;
 import model.animals.Animal;
-import model.animals.pets.Cat;
 import view.View;
 
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 
@@ -25,22 +26,37 @@ public class Presenter {
 
 
 
-    public void showAnimals() throws SQLException, IOException {        
+    public List<Animal> showAnimals() throws SQLException, IOException {        
         ResultSet rs = dbConnection.getResultSet("SELECT * FROM animals;");
-        List<Animal> cats = new ArrayList<Animal>();
+        List<Animal> animals = new ArrayList<Animal>();
         while (rs.next()) {
-            Animal cat = new Animal(
-                    rs.getInt("id"),
-                    rs.getInt("animal_type_id"),
-                    rs.getInt("type_id"),
-                    rs.getString("name"),
-                    rs.getDate("birthday"),
-                    rs.getString("command"));
-            cats.add(cat);
+            // Animal animal = new Animal(1, 1, 1, "Lucky", java.sql.Date.valueOf(dateString), "рядом");
+            Animal animal = new Animal(
+                rs.getInt("id"),
+                rs.getInt("animal_type_id"),
+                rs.getInt("type_id"),
+                rs.getString("name"),
+                rs.getDate("birthday"),
+                rs.getString("command")
+            );
+            animals.add(animal);
         }
-        for (Animal cat : cats) {
-           System.out.println(cat.toString()); 
-        }
+        return animals;
     }
+
+
+
+    public Map<Integer, String> getMap(String tableName, String fieldName) throws SQLException, IOException {
+        ResultSet rs = dbConnection.getResultSet("SELECT * FROM " + tableName + ";");
+        Map<Integer, String> map = new HashMap<Integer, String>();
+        while (rs.next()) {
+            map.put(rs.getInt("id"), rs.getString(fieldName));
+        }
+        return map;
+    }
+
+
+
+    
     
 }

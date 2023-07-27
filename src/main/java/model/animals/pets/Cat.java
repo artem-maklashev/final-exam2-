@@ -6,20 +6,13 @@ import java.sql.Date;
 
 
 
-public class Cat extends Animal {
+public class Cat extends PetsAnimals {
 
-    private final int petsId = 1;
+    public Cat(int id, int animalTypeId, int kindId, String name, Date birthDate, String comand) {
+        super(id, animalTypeId, kindId, name, birthDate, comand);
+        kindId = 1;
+    }
+  
+   
     
-    public Cat(int id, int type, int petsId, String name, Date birthday, String commands) {
-        super(id, name, birthday, type, commands);        
-    }
-
-    public int getPetsId() {
-        return petsId;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + ", type_id=" +petsId;
-    }
 }
