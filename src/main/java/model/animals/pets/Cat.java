@@ -8,9 +8,9 @@ import java.sql.Date;
 
 public class Cat extends PetsAnimals {
 
-    public Cat(int id, int animalTypeId, int kindId, String name, Date birthDate, String comand) {
-        super(id, animalTypeId, kindId, name, birthDate, comand);
-        kindId = 1;
+    public Cat(int id, String name, Date birthDate, String comand) {
+        super(id,  1, name, birthDate, comand);
+        
     }
   
    

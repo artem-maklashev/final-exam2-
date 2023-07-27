@@ -2,6 +2,7 @@ package presenter;
 
 import model.DBconnection;
 import model.animals.Animal;
+import model.animals.pets.Cat;
 import view.View;
 
 import java.io.IOException;
@@ -30,17 +31,17 @@ public class Presenter {
         ResultSet rs = dbConnection.getResultSet("SELECT * FROM animals;");
         List<Animal> animals = new ArrayList<Animal>();
         while (rs.next()) {
-            // Animal animal = new Animal(1, 1, 1, "Lucky", java.sql.Date.valueOf(dateString), "рядом");
             Animal animal = new Animal(
-                rs.getInt("id"),
-                rs.getInt("animal_type_id"),
-                rs.getInt("type_id"),
-                rs.getString("name"),
-                rs.getDate("birthday"),
-                rs.getString("command")
-            );
+                    rs.getInt("id"),
+                    rs.getInt("animal_type_id"),
+                    rs.getInt("type_id"),
+                    rs.getString("name"),
+                    rs.getDate("birthday"),
+                    rs.getString("command"));
             animals.add(animal);
         }
+        // Animal animal = new Cat(1, "Name", java.sql.Date.valueOf("2023-07-27"), "рядом");
+        // System.out.println(animal.getKindId());
         return animals;
     }
 
