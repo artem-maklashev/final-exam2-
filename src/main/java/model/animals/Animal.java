@@ -7,6 +7,7 @@ public abstract class Animal {
     private String name;
     private Date birthday;
     private int animal_type_id;
+    private Integer type_id;
     private String commands;
     
     public Animal(int id, String name, Date birthday, int type, String commands) {

@@ -20,6 +20,6 @@ public class Cat extends Animal {
 
     @Override
     public String toString() {
-        return super.toString() + ", petsId=" +petsId;
+        return super.toString() + ", type_id=" +petsId;
     }
 }

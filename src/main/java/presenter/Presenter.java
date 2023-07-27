@@ -1,6 +1,7 @@
 package presenter;
 
 import model.DBconnection;
+import model.animals.Animal;
 import model.animals.pets.Cat;
 import view.View;
 
@@ -25,19 +26,19 @@ public class Presenter {
 
 
     public void showAnimals() throws SQLException, IOException {        
-        ResultSet rs = dbConnection.getResultSet("SELECT * FROM cats;");
-        List<Cat> cats = new ArrayList<Cat>();
+        ResultSet rs = dbConnection.getResultSet("SELECT * FROM animals;");
+        List<Animal> cats = new ArrayList<Animal>();
         while (rs.next()) {
-            Cat cat = new Cat(
+            Animal cat = new Animal(
                     rs.getInt("id"),
                     rs.getInt("animal_type_id"),
-                    rs.getInt("pets_type_id"),
+                    rs.getInt("type_id"),
                     rs.getString("name"),
                     rs.getDate("birthday"),
                     rs.getString("command"));
             cats.add(cat);
         }
-        for (Cat cat : cats) {
+        for (Animal cat : cats) {
            System.out.println(cat.toString()); 
         }
     }
