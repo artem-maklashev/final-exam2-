@@ -8,6 +8,7 @@ import view.consoleUI.menu.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -54,38 +55,58 @@ public class ConsoleUI implements View {
 
     public String scan(String message) {
         message(message);
-        return scanner.nextLine();
+        return scanner.next();
     }
 
     public int scanInt(String message){
         boolean scanFlag = false;
         int id = 0;
-        while(scanFlag)
+        while(!scanFlag) {
             message(message);
             try {
                 id = scanner.nextInt();
                 if (id < 1) {
                     message("Номер не может быть меньше 1");
+                } else {
+                    scanFlag = true;
                 }
-                scanFlag = true;
-            } catch (NumberFormatException ex) {
+            } catch (InputMismatchException ex) {
                 message("Номер должен быть целым положительным числом отличным от 0");
+                scanner.nextLine();
             }
+        }
         return id;
     }
 
     @Override
-    public void showCommands() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'showCommands'");
+    public void showCommands() throws SQLException, IOException {
+        int id = scanInt("Input animal number: ");
+        String tableName= "Animals";
+        boolean isAnimalPresent = presenter.checkAnimalNumber(tableName, id);
+        if (isAnimalPresent) {
+            String command = presenter.showCommands(tableName, id);
+            message("У животного следующие команды: " + command);
+        }
     }
 
     @Override
     public void trainAnimal() throws SQLException, IOException {
         int id = scanInt("Input animal number: ");
-        boolean isAnimalPresent = presenter.checkAnimalNumber("Animals", id);
+        String tableName= "Animals";
+        boolean isAnimalPresent = presenter.checkAnimalNumber(tableName, id);
         if (isAnimalPresent) {
+//            scanner.next();
             message("Животное найдено ");
+            String newComand = scan("Введите новую команду");
+            try{
+                presenter.updateComand(tableName, id, newComand);
+            } catch (IOException ex) {
+                message("Ошибка ввоада-вывода");
+                message(ex.getMessage());
+            } catch (SQLException ex){
+                message("Ошибка работы с БД");
+                message(ex.getMessage());
+            }
         } else{
             message("Животное не найдено ");
         }

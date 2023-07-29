@@ -3,6 +3,7 @@ package view.consoleUI.menu;
 import view.View;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 
 public class ShowCommands extends MenuMethod {
@@ -17,7 +18,7 @@ public class ShowCommands extends MenuMethod {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run() throws IOException, SQLException {
         getView().showCommands();
     }
 

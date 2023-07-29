@@ -65,4 +65,23 @@ public class Presenter {
         }
         return idExist;
     }
+
+    public void updateComand(String tableName, int id, String newComand) throws SQLException, IOException {
+        String oldCommand = showCommands(tableName, id);
+        if (!oldCommand.isEmpty()){
+            newComand = oldCommand + ", " + newComand;
+        }
+        dbConnection.executeQuery("UPDATE " + tableName + " " +
+                "SET command = ? "  + "WHERE id = ?;", newComand, id);
+
+    }
+
+    public String showCommands(String tableName, int id) throws SQLException, IOException {
+        ResultSet commandSet = dbConnection.getResultSet("SELECT command FROM " + tableName + " WHERE id = "+ id + ";");
+        String command = null;
+        while (commandSet.next()){
+            command = commandSet.getString(1);
+        }
+        return command;
+    }
 }

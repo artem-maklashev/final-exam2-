@@ -29,11 +29,12 @@ public class DBconnection {
         connection.close();
     }
 
-    public void executeQuery(String query) throws SQLException, IOException {
+    public void executeQuery(String query, String command, int id) throws SQLException, IOException {
         Connection connection = getConnection();
         PreparedStatement ps = connection.prepareStatement(query);
-        ResultSet rs = ps.executeQuery();
-        closeConection(connection);
+        ps.setString(1, command);
+        ps.setInt(2, id);
+        ps.executeUpdate();
     }
 
     public ResultSet getResultSet(String query) throws SQLException, IOException {

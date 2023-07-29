@@ -17,7 +17,7 @@ public interface View {
 
     void start() throws IOException, SQLException;
 
-    void showCommands();
+    void showCommands() throws SQLException, IOException;
 
     void trainAnimal() throws SQLException, IOException;
 
