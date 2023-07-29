@@ -1,20 +1,16 @@
 package view.consoleUI;
 
 
-
+import model.animals.Animal;
 import presenter.Presenter;
 import view.View;
 import view.consoleUI.menu.*;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
-import model.animals.Animal;
 
 public class ConsoleUI implements View {
     private Presenter presenter;
@@ -51,7 +47,7 @@ public class ConsoleUI implements View {
         mainMenu.addItem(new Exit(this));
         while (mainFlag == true) {
             mainMenu.printMenu();
-            int choice = Integer.parseInt(scan("Please enter your choice: "));
+            int choice = scanInt("Please enter your choice: ");
             mainMenu.getItem(choice).run();            
         }
     }
@@ -61,6 +57,23 @@ public class ConsoleUI implements View {
         return scanner.nextLine();
     }
 
+    public int scanInt(String message){
+        boolean scanFlag = false;
+        int id = 0;
+        while(scanFlag)
+            message(message);
+            try {
+                id = scanner.nextInt();
+                if (id < 1) {
+                    message("Номер не может быть меньше 1");
+                }
+                scanFlag = true;
+            } catch (NumberFormatException ex) {
+                message("Номер должен быть целым положительным числом отличным от 0");
+            }
+        return id;
+    }
+
     @Override
     public void showCommands() {
         // TODO Auto-generated method stub
@@ -68,9 +81,14 @@ public class ConsoleUI implements View {
     }
 
     @Override
-    public void trainAnimal() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'trainAnimal'");
+    public void trainAnimal() throws SQLException, IOException {
+        int id = scanInt("Input animal number: ");
+        boolean isAnimalPresent = presenter.checkAnimalNumber("Animals", id);
+        if (isAnimalPresent) {
+            message("Животное найдено ");
+        } else{
+            message("Животное не найдено ");
+        }
     }
 
     @Override
@@ -94,8 +112,9 @@ public class ConsoleUI implements View {
 
     @Override
     public void exit() {
-        mainFlag = false;    }   
+        mainFlag = false;    }
 
-    
+
+
 
 }

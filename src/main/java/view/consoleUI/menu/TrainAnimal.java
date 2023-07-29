@@ -3,7 +3,7 @@ package view.consoleUI.menu;
 import view.View;
 
 import java.io.IOException;
-
+import java.sql.SQLException;
 
 
 public class TrainAnimal extends MenuMethod{
@@ -18,7 +18,7 @@ public class TrainAnimal extends MenuMethod{
     }
 
     @Override
-    public void run() throws IOException {
+    public void run() throws IOException, SQLException {
         getView().trainAnimal();
     }
 
