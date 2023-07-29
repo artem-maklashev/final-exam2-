@@ -2,7 +2,6 @@ package presenter;
 
 import model.DBconnection;
 import model.animals.Animal;
-import model.animals.pets.Cat;
 import view.View;
 
 import java.io.IOException;
@@ -57,7 +56,13 @@ public class Presenter {
     }
 
 
-
-    
-    
+    public boolean checkAnimalNumber(String tableName, int id) throws SQLException, IOException {
+        boolean idExist = false;
+        ResultSet rs = dbConnection.getResultSet("SELECT * from " + tableName + " WHERE id = " + id + ";");
+        while(rs.next()){
+            idExist = true;
+            break;
+        }
+        return idExist;
+    }
 }

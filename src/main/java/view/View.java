@@ -19,9 +19,11 @@ public interface View {
 
     void showCommands();
 
-    void trainAnimal();
+    void trainAnimal() throws SQLException, IOException;
 
     void showAnimals() throws SQLException, IOException;
 
     void exit();
+
+
 }
