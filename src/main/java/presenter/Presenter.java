@@ -70,6 +70,9 @@ public class Presenter {
 
     public void updateComand(Animal animal, String command) throws SQLException, IOException {
         String oldCommand = animal.getComand();
+        if (oldCommand == null) {
+            oldCommand="";
+        }
         if (!oldCommand.isEmpty()) {
             command = oldCommand + ", " + command;
         }

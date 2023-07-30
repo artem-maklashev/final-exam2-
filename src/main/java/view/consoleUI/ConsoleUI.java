@@ -76,7 +76,13 @@ public class ConsoleUI implements View {
         while (mainFlag == true) {
             System.out.println("Основное меню:");
             mainMenu.printMenu();
-            int choice = scanInt("Please enter your choice: ");
+            int choice;
+            while(true){
+                choice = scanInt("Please enter your choice: ");
+                if (choice>0 && choice <7) {
+                    break;
+                }
+            }
             mainMenu.getItem(choice).run();
         }
     }
