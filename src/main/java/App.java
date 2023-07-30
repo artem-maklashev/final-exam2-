@@ -6,9 +6,10 @@ import view.consoleUI.ConsoleUI;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 public class App {
-    public static void main(String[] args) throws IOException, SQLException {
+    public static void main(String[] args) throws IOException, SQLException, ParseException {
         View view = new ConsoleUI();
         DBconnection dBconnection = new DBconnection();
         Presenter presenter = new Presenter(view, dBconnection);

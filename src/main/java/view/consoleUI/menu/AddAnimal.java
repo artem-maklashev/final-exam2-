@@ -1,6 +1,10 @@
 package view.consoleUI.menu;
 
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.ParseException;
+
 import view.View;
 
 public class AddAnimal extends MenuMethod{
@@ -11,7 +15,7 @@ public class AddAnimal extends MenuMethod{
     }
     
     @Override
-        public void run() {
+        public void run() throws ParseException, SQLException, IOException {
             getView().addAnimal();
         }
 

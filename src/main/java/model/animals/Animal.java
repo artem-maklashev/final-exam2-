@@ -10,6 +10,8 @@ public class Animal {
     private Date birthDate;
     private String comand;
 
+    public Animal(){}
+
     public Animal(int id, int animalTypeId, int kindId, String name, Date birthDate, String comand) {
         this.id = id;
         this.animalTypeId = animalTypeId;

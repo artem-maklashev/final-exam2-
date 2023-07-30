@@ -2,10 +2,11 @@ package view;
 
 
 import presenter.Presenter;
+import view.consoleUI.menu.setClass;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
+import java.text.ParseException;
 
 
 public interface View {
@@ -13,9 +14,9 @@ public interface View {
 
     void message(String message);
 
-    void addAnimal();
+    void addAnimal() throws ParseException, SQLException, IOException;
 
-    void start() throws IOException, SQLException;
+    void start() throws IOException, SQLException, ParseException;
 
     void showCommands() throws SQLException, IOException;
 
@@ -26,4 +27,5 @@ public interface View {
     void exit();
 
 
+    void setClass() throws SQLException, IOException;
 }
