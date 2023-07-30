@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,19 +30,35 @@ public class DBconnection {
         connection.close();
     }
 
-    public void executeQuery(String query) throws SQLException, IOException {
-        Connection connection = getConnection();
-        PreparedStatement ps = connection.prepareStatement(query);
-        ResultSet rs = ps.executeQuery();
-        closeConection(connection);
-    }
-
     public ResultSet getResultSet(String query) throws SQLException, IOException {
         Connection connection = getConnection();
         PreparedStatement ps = connection.prepareStatement(query);
         ResultSet rs = ps.executeQuery();
-//        closeConection(connection);
         return rs;
     }
 
+    public void executeQuery(String query, int animal_type_id, int type_id, String name, Date birthday,
+            String command, int id) throws SQLException, IOException {
+        Connection connection = getConnection();
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.setInt(1, animal_type_id);
+        ps.setInt(2, type_id);
+        ps.setString(3, name);
+        ps.setDate(4, birthday);
+        ps.setString(5, command);
+        ps.setInt(6, id);
+        ps.executeUpdate();
+    }
+
+    public void executeQuery(String query, int animal_type_id, int type_id, String name, Date birthday,
+                             String command ) throws SQLException, IOException {
+        Connection connection = getConnection();
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.setInt(1, animal_type_id);
+        ps.setInt(2, type_id);
+        ps.setString(3, name);
+        ps.setDate(4, birthday);
+        ps.setString(5, command);
+        ps.executeUpdate();
+    }
 }

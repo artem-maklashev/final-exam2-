@@ -5,21 +5,18 @@ import view.View;
 import java.io.IOException;
 import java.sql.SQLException;
 
-
-public class ShowCommands extends MenuMethod {
-
-    public ShowCommands(View view) {
-        super(view);        
+public class setClass extends MenuMethod{
+    public setClass(View view) {
+        super(view);
     }
 
     @Override
     public String description() {
-        return "Show commands";
+        return "Set animal class";
     }
 
     @Override
     public void run() throws IOException, SQLException {
-        getView().showCommands();
+        getView().setClass();
     }
-
 }
